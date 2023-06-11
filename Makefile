@@ -14,6 +14,12 @@ docker-compose-up-local: ## Run all services locally using docker compose
 docker-compose-down-local: ## Delete all services locally using docker compose
 	docker-compose -f docker-compose.local.yaml down
 
+# NPM targets.
+
+.PHONY: install
+install: ## Install npm dependencies
+	npm --prefix qa/ install
+
 # Cypress targets.
 
 .PHONY: cypress-run

@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- [posts-demo](#posts-demo)
+- [cypress-framework](#cypress-framework)
   - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
@@ -67,10 +67,16 @@ git clone https://github.com/pedromspeixoto/cypress-framework.git
 make docker-compose-up-local
 ```
 
-3. Run the Cypress tests:
+3. Install the dependencies:
+
+```bash
+make install
+```
+
+4. Run the Cypress tests:
 
 ```bash
 make cypress-run
 ```
 
-4. HTML and JUnit reports will be generated under the `qa/reports` folder.
+5. HTML and JUnit reports will be generated under the `qa/reports` folder.

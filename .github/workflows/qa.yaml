@@ -26,27 +26,17 @@ jobs:
         run: make install
 
       - name: Run cypress tests
-        run: make cypress-run
+        run: npx --prefix qa/ cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Upload html reports
+      - name: Upload html report
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: cypress-html-report
-          path: ./qa/results/mochawesome/html/combined-report-mocha.html
+          path: ./qa/results/mochawesome/html/
 
-      - name: Upload public folder to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./qa/results/mochawesome/html
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Comment in PR with cypress report
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Publish cypress junit report
+        uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          message: |
-            ## Cypress Report
-            QA job has finished with status **${{ job.status }}**.
+          report_paths: 'qa/combined-report-junit.xml'

@@ -1,0 +1,46 @@
+name: QA
+
+on:
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Sandbox Cypress Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Start sandbox environment using docker-compose
+        run: make docker-compose-up-local
+
+      - name: Run cypress tests
+        uses: cypress-io/github-action@v4
+        with:
+          command: npm --prefix qa/ run cy:run:reports
+          browser: chrome
+
+      - name: Upload html reports
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-html-report
+          path: ./qa/results/mochawesome/html/combined-report-mocha.html
+      
+      - name: Upload json reports
+        uses: dorny/test-reporter@v1
+        with:
+          name: Cypress Tests
+          path: ./qa/combined-report-mocha.json
+          reporter: mocha-json
+
+      - name: Comment in PR with cypress report
+        uses: thollander/actions-comment-pull-request@v2
+        if: always()
+        with:
+          message: |
+            ## Cypress Report
+            QA job has finished with status **${{ job.status }}**.

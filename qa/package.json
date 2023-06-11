@@ -1,0 +1,36 @@
+{
+  "name": "qa-automation-cypress",
+  "version": "1.0.0",
+  "description": "Cypress QA automation tests",
+  "main": "index.js",
+  "private": false,
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:report": "npm run cy:run && npm run reports",
+    "docker:sandbox:up": "docker-compose -f ../docker-compose.local.yaml up -d --build",
+    "docker:sandbox:down": "docker-compose -f ../docker-compose.local.yaml down",
+    "junit:combine:reports": "jrm combined-report-junit.xml \"results/junit/*.xml\"",
+    "mocha:combine:reports": "npx mochawesome-merge \"results/mochawesome/*.json\" > combined-report-mocha.json",
+    "mocha:generate:html": "npx marge combined-report-mocha.json -o results/mochawesome/html",
+    "reports": "npm run junit:combine:reports && npm run mocha:combine:reports && npm run mocha:generate:html",
+    "delete:reports": "rm -rf results/* || true && rm -rf combined-report-mocha.json || true && rm -rf combined-report-junit.xml || true",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress-plugin-api": "^2.11.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "chance": "^1.1.11",
+    "cypress": "^12.14.0",
+    "cypress-multi-reporters": "^1.6.3",
+    "junit-report-merger": "^6.0.2",
+    "mocha-junit-reporter": "^2.2.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0"
+  }
+}

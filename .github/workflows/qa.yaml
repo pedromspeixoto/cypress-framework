@@ -17,30 +17,32 @@ jobs:
       - name: Start sandbox environment using docker-compose
         run: make docker-compose-up-local
 
-      - name: Run cypress tests
-        uses: cypress-io/github-action@v4
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          command: npm --prefix qa/ run cy:run:reports
-          browser: chrome
+          node-version: '14.5.0'
 
-      - name: Upload html reports
+      - name: Install dependencies
+        run: make install
+
+      - name: Run cypress tests
+        working-directory: ./qa
+        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Generate reports
+        working-directory: ./qa
+        if: always()
+        run: npm run reports 
+
+      - name: Upload html report
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: cypress-html-report
-          path: ./qa/results/mochawesome/html/combined-report-mocha.html
-      
-      - name: Upload json reports
-        uses: dorny/test-reporter@v1
-        with:
-          name: Cypress Tests
-          path: ./qa/combined-report-mocha.json
-          reporter: mocha-json
+          path: ./qa/results/mochawesome/html/
 
-      - name: Comment in PR with cypress report
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Publish cypress junit report
+        uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          message: |
-            ## Cypress Report
-            QA job has finished with status **${{ job.status }}**.
+          report_paths: 'qa/combined-report-junit.xml'

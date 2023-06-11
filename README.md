@@ -53,6 +53,14 @@ The demo React FE that was created for this application has the following featur
 - [Git](https://git-scm.com/downloads)
 - [Node.js](https://nodejs.org/en/download/)
 
+This was tested using the following versions:
+
+- Docker version 20.10.14, build a224086
+- docker-compose version 1.29.2, build 5becea4c
+- GNU Make 3.81
+- git version 2.32.1 (Apple Git-133)
+- Node.js v14.5.0
+
 ## Usage
 
 1. Clone the repo:

@@ -26,8 +26,13 @@ jobs:
         run: make install
 
       - name: Run cypress tests
-        working-directory: ./app
+        working-directory: ./qa
         run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Generate reports
+        working-directory: ./qa
+        if: always()
+        run: npm run reports 
 
       - name: Upload html report
         uses: actions/upload-artifact@v2

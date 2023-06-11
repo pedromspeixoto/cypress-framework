@@ -34,14 +34,6 @@ jobs:
         with:
           name: cypress-html-report
           path: ./qa/results/mochawesome/html/combined-report-mocha.html
-      
-      - name: Upload json reports
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Cypress Tests
-          path: ./qa/combined-report-mocha.json
-          reporter: mocha-json
 
       - name: Comment in PR with cypress report
         uses: thollander/actions-comment-pull-request@v2

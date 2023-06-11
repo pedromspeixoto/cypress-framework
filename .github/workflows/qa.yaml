@@ -35,6 +35,14 @@ jobs:
           name: cypress-html-report
           path: ./qa/results/mochawesome/html/combined-report-mocha.html
 
+      - name: Upload public folder to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./qa/results/mochawesome/html
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+
       - name: Comment in PR with cypress report
         uses: thollander/actions-comment-pull-request@v2
         if: always()

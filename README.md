@@ -130,6 +130,16 @@ make cypress-run
 
 5. Reports are generated using three different methods:
 
-- HTML reports (located under the `qa/reports` folder after each run)
-- JUnit reports (located under the `qa/reports` folder after each run)
-- Cypress Cloud (located [here](https://cloud.cypress.io/projects/15nh9z/runs))
+- HTML reports (located under the `qa/reports` folder after each run and uploaded to GitHub Actions artifacts):
+
+![HTML Report](./assets/HTML-Reports-CI.png)
+
+- JUnit reports (located under the `qa/reports` folder after each run and upload as test results to Github Actions using the `junit-report-action` plugin):
+
+![JUnit Report](./assets/JUnit-Reports-CI.png)
+
+- Cypress Cloud:
+
+![Cypress Cloud](./assets/Cypress-Cloud-Overview.png)
+
+You can also view the Cypress Cloud dashboard [here](https://cloud.cypress.io/projects/15nh9z/runs)
